@@ -42,6 +42,14 @@ class Magento(MagentoConnection):
                 return self._call('catalog_product.list', [filters, store_view])
         return self._call('catalog_product.list', [])
 
+    def createProductData(self, product_type, attribute_id, sku, productdata):
+        """Create new product and return product id"""
+        return self._call('catalog_product.create', [product_type, attribute_id, sku, productdata])
+
+    def deleteProductData(self, sku):
+        """Delete product"""
+        return self._call('catalog_product.delete', [sku, ])
+
     #IMAGE OPERATIONS
     def getImagesOfProducts(self, sku):
         """Retrieves all images of a product"""
@@ -67,6 +75,10 @@ class Magento(MagentoConnection):
         return self._call('catalog_product_attribute_media.create', [sku, image_data])
 
     #CATEGORY OPERARTIONS
+    def currentStore(self, store_view):
+        """Set/Get current store view"""
+        return self._call('catalog_category.currentStore', [store_view, ])
+
     def createCategory(self, parent_category_id, categorydata):
         """Create a category"""
         return self._call('catalog_category.create', [parent_category_id, categorydata])
@@ -91,10 +103,53 @@ class Magento(MagentoConnection):
         """Retrieve category tree"""
         return self._call('catalog_category.tree', [])
 
-
     def assignedProducts(self, category_id, store_id):
         """Retrieve all assigned products"""
         return self._call('catalog_category.assignedProducts', [category_id, store_id])
+
+    def infoCategory(self, category_id):
+        """Retrieve category data"""
+        return self._call('catalog_category.info', [category_id, ])
+
+    #PRODUCT LINK
+    def listProductLink(self, link_type, sku):
+        """Retrieve linked products """
+        return self._call('product_link.list', [link_type, sku])
+
+    def assignProductLink(self, link_type, sku, sku2, link_data=[]):
+        """Assign product link """
+        return self._call('product_link.assign', [link_type, sku, sku2, link_data])
+
+    #ATTRIBUTE OPERARTIONS
+    def listAttributeSet(self):
+        """Retrieve product attribute sets"""
+        return self._call('product_attribute_set.list')
+
+    def listAttribute(self, attribute_id):
+        """Retrieve attribute list"""
+        return self._call('product_attribute.list', [attribute_id, ])
+
+    def getAttributeOptions(self, attribute_id):
+        """Retrieve attribute options"""
+        return self._call('product_attribute.options', [attribute_id, ])
+
+    #PRODUCT STOCK
+    def listProductStock(self, sku):
+        """Retrieve stock data by product ids"""
+        return self._call('product_stock.list', [sku, ])
+
+    def updateProductStock(self, sku, stockdata):
+        """Update product stock data"""
+        return self._call('product_stock.update', [sku, stockdata])
+
+    #SALES ORDER
+    def listSalesOrder(self, filters=[]):
+        """Retrieve list of orders by filters """
+        return self._call('sales_order.list', [filters, ])
+
+    def infoSalesOrder(self, increment_id):
+        """Retrieve order information"""
+        return self._call('sales_order.info', [increment_id, ])
 
 
 if __name__ == "__main__":

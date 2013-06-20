@@ -99,6 +99,19 @@ class Magento(MagentoConnection):
         """Retrieve category tree"""
         return self._call('catalog_category.tree', [parent_id, ])
 
+    def _treeCategoryFullProcessor(self, cat_tree):
+        childs = []
+        for children in cat_tree['children']:
+            childs.append(self._treeCategoryFullProcessor(children))
+        data = self.infoCategory(cat_tree['category_id'])
+        cat_tree.update(data)
+        cat_tree['children'] = childs
+        return cat_tree
+
+    def treeCategoryFull(self, parent_id):
+        """Retrieve category tree with full info"""
+        return self._treeCategoryFullProcessor(self.treeCategory(parent_id))
+
     def treeAllCategory(self):
         """Retrieve category tree"""
         return self._call('catalog_category.tree', [])

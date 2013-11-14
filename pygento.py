@@ -138,9 +138,13 @@ class Magento(MagentoConnection):
         """Retrieve product attribute sets"""
         return self._call('product_attribute_set.list')
 
-    def listAttribute(self, attribute_id):
+    def listAttribute(self, attribute_set_id = 4):
         """Retrieve attribute list"""
-        return self._call('product_attribute.list', [attribute_id, ])
+        return self._call('product_attribute.list', [attribute_set_id, ])
+
+    def infoAttribute(self, attribute_code):
+        """Retrieve attribute list"""
+        return self._call('product_attribute.info', [attribute_code, ])
 
     def getAttributeOptions(self, attribute_id):
         """Retrieve attribute options"""

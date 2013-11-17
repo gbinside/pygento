@@ -134,10 +134,15 @@ class Magento(MagentoConnection):
         return self._call('product_link.assign', [link_type, sku, sku2, link_data])
 
     #ATTRIBUTE OPERARTIONS
-    def listAttributeSet(self):
-        """Retrieve product attribute sets"""
-        return self._call('product_attribute_set.list')
-
+    def currentStoreAttribute(self, store_view=None):
+        if store_view:
+            return self._call('catalog_product_attribute.currentStore', [store_view, ])
+        else:
+            return self._call('catalog_product_attribute.currentStore')
+    
+    def typesAttribute(self):
+        return self._call('product_attribute.types')      
+    
     def listAttribute(self, attribute_set_id = 4):
         """Retrieve attribute list"""
         return self._call('product_attribute.list', [attribute_set_id, ])
@@ -149,6 +154,11 @@ class Magento(MagentoConnection):
     def getAttributeOptions(self, attribute_id):
         """Retrieve attribute options"""
         return self._call('product_attribute.options', [attribute_id, ])
+
+    #ATTRIBUTE SET OPERARTIONS
+    def listAttributeSet(self):
+        """Retrieve product attribute sets"""
+        return self._call('product_attribute_set.list')
 
     #PRODUCT STOCK
     def listProductStock(self, sku):

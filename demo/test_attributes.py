@@ -16,6 +16,12 @@ if __name__ == "__main__":
         config.get('General', 'user', ''),
         config.get('General', 'pass', '')
     )
+    
+    attributes_done = {}
+
+    print 'current store', conn.currentStoreAttribute()
+    print 'attribute types ', 
+    pprint(conn.typesAttribute())
 
     starttime = time.time()
     attr_sets = conn.listAttributeSet()
@@ -30,9 +36,11 @@ if __name__ == "__main__":
         for attr in attrs:
             print attr['code'].center(70,'-')
             pprint(attr)
-            starttime = time.time()
-            attr_info = conn.infoAttribute(attr['attribute_id'])
-            print "conn.infoAttribute() in ", time.time() - starttime
-            pprint(attr_info)
+            if attr['code'] not in attributes_done:
+                attributes_done[attr['code']] = 1
+                starttime = time.time()
+                attr_info = conn.infoAttribute(attr['attribute_id'])
+                print "conn.infoAttribute() in ", time.time() - starttime
+                pprint(attr_info)
             
     
